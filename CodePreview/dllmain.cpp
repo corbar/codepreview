@@ -28,23 +28,18 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 // {DA832011-9B0F-40AE-892C-9494BB32B8B2}
 const CLSID CLSID_CodePreviewHandler =
 { 0xDA832011, 0x9B0F, 0x40AE,{ 0x89, 0x2C, 0x94, 0x94, 0xBB, 0x32, 0xB8, 0xB2 } };
-
-// {CD5C966F-C810-48C1-8B28-35FD17AFA5DA}
-//const GUID APPID_CodePreviewHandler =
-//{ 0xCD5C966F, 0xC810, 0x48C1,{ 0x8B, 0x28, 0x35, 0xFD, 0x17, 0xAF, 0xA5, 0xDA } };
-
 #define SZ_CODEPREVIEWHANDLER         L"Code Preview Handler"
 #define SZ_CLSID_CODEPREVIEWHANDLER   L"{DA832011-9B0F-40AE-892C-9494BB32B8B2}"
+
+// {CD5C966F-C810-48C1-8B28-35FD17AFA5DA}
+const GUID APPID_CodePreviewHandler =
+{ 0xCD5C966F, 0xC810, 0x48C1,{ 0x8B, 0x28, 0x35, 0xFD, 0x17, 0xAF, 0xA5, 0xDA } };
+
 // the id of prevhost.exe that will host this preview handler (this is the surogate host)
 #define SZ_CLSID_HOSTAPP              L"{6D2B5079-2F0B-48DD-AB7F-97CEC514D30B}"
-// {DA832011-9B0F-40AE-892C-9494BB32B8B2}
 
 
 
-#define SZ_CODEPREVIEWHANDLER         L"Code Preview Handler"
-//#define SZ_CLSID_CODEPREVIEWHANDLER   L"{DA832011-9B0F-40AE-892C-9494BB32B8B2}"
-// the id of prevhost.exe that will host this preview handler (this is the surogate host)
-#define SZ_CLSID_HOSTAPP              L"{6D2B5079-2F0B-48DD-AB7F-97CEC514D30B}"
 
 
 HINSTANCE   g_hInst = NULL;
@@ -258,10 +253,10 @@ STDAPI DllRegisterServer()
 			{ HKEY_CURRENT_USER,   L"Software\\Classes\\Wow6432Node\\CLSID\\" SZ_CLSID_CODEPREVIEWHANDLER L"\\InProcServer32",       NULL,                           szModuleName },
 			{ HKEY_CURRENT_USER,   L"Software\\Classes\\Wow6432Node\\CLSID\\" SZ_CLSID_CODEPREVIEWHANDLER L"\\InProcServer32",       L"ThreadingModel",              L"Apartment" },
 			{ HKEY_CURRENT_USER,   L"Software\\Classes\\Wow6432Node\\CLSID\\" SZ_CLSID_CODEPREVIEWHANDLER,                           L"AppID",                       SZ_CLSID_HOSTAPP },
-			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.code\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                     NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
-			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.cpp\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                      NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
 			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.h\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                        NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
-			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.txt\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                        NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
+			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.c\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                        NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
+			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.cpp\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                      NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
+			{ HKEY_CURRENT_USER,   L"Software\\Classes\\.txt\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",                      NULL,                           SZ_CLSID_CODEPREVIEWHANDLER },
 			{ HKEY_LOCAL_MACHINE,  L"Software\\Microsoft\\Windows\\CurrentVersion\\PreviewHandlers",                                 SZ_CLSID_CODEPREVIEWHANDLER,    L"Cornel's Code Preview Handler" },
 		};
 
@@ -285,9 +280,9 @@ STDAPI DllUnregisterServer()
 	{
 		L"Software\\Classes\\CLSID\\" SZ_CLSID_CODEPREVIEWHANDLER,
 		L"Software\\Classes\\Wow6432Node\\CLSID\\" SZ_CLSID_CODEPREVIEWHANDLER,
-		L"Software\\Classes\\.code\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",
-		L"Software\\Classes\\.cpp\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",
 		L"Software\\Classes\\.h\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",
+		L"Software\\Classes\\.c\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",
+		L"Software\\Classes\\.cpp\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}",
 		L"Software\\Classes\\.txt\\ShellEx\\{8895b1c6-b41f-4c1c-a562-0d564250836f}"
 	};
 

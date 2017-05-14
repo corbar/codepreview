@@ -17,6 +17,9 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 
 extern HINSTANCE   g_hInst;
 extern long g_cDllRef;
+extern SciLexer lexDefault;
+extern SciLexer lexCpp;
+
 
 void DebugPrintf(const wchar_t *format, ...);
 
@@ -459,6 +462,21 @@ HRESULT CodePreviewHandler::CreatePreviewWindow()
 		SendMessage(m_hwndPreview, SCI_STYLESETFONT, STYLE_DEFAULT, (LPARAM)"Consolas");
 		SendMessage(m_hwndPreview, SCI_STYLESETSIZE, STYLE_DEFAULT, (LPARAM)12);
 		//SendMessage(m_hwndPreview, SCI_STYLESETFORE, STYLE_DEFAULT, RGB(228, 35, 62));
+		for (int i = 0; lexDefault.styles[i].iStyle != -1; ++i)
+		{
+			int color = lexDefault.styles[i].colFore;
+			COLORREF rgb = RGB((color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF);
+			SendMessage(m_hwndPreview, SCI_STYLESETFORE, lexDefault.styles[i].iStyle, rgb);
+
+			color = lexDefault.styles[i].colBack;
+			rgb = RGB((color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF);
+			SendMessage(m_hwndPreview, SCI_STYLESETBACK, lexDefault.styles[i].iStyle, rgb);
+
+			SendMessage(m_hwndPreview, SCI_STYLESETBOLD, lexDefault.styles[i].iStyle, lexDefault.styles[i].bold);
+			SendMessage(m_hwndPreview, SCI_STYLESETITALIC, lexDefault.styles[i].iStyle, lexDefault.styles[i].italic);
+			SendMessage(m_hwndPreview, SCI_STYLESETUNDERLINE, lexDefault.styles[i].iStyle, lexDefault.styles[i].undeline);
+			SendMessage(m_hwndPreview, SCI_STYLESETEOLFILLED, lexDefault.styles[i].iStyle, lexDefault.styles[i].eolFill);
+		}
 
 		SendMessage(m_hwndPreview, SCI_STYLECLEARALL, 0, 0);// needs to be called after setting the default style
 		SendMessage(m_hwndPreview, SCI_STYLESETSIZE, STYLE_LINENUMBER, (LPARAM)10);
@@ -474,7 +492,6 @@ HRESULT CodePreviewHandler::CreatePreviewWindow()
 	return hr;
 }
 
-extern SciLexer lexCpp;
 
 void CodePreviewHandler::SetCppLexer()
 {
@@ -518,6 +535,10 @@ void CodePreviewHandler::SetCppLexer()
 		SendMessage(m_hwndPreview, SCI_STYLESETUNDERLINE, lexCpp.styles[i].iStyle, lexCpp.styles[i].undeline);
 		SendMessage(m_hwndPreview, SCI_STYLESETEOLFILLED, lexCpp.styles[i].iStyle, lexCpp.styles[i].eolFill);
 	}
+
+	SendMessage(m_hwndPreview, SCI_STYLESETFORE, STYLE_BRACELIGHT, RGB(0xFF, 0x00, 0x00));
+	SendMessage(m_hwndPreview, SCI_STYLESETBACK, STYLE_BRACELIGHT, RGB(0xFF, 0xDC, 0xDC));
+	SendMessage(m_hwndPreview, SCI_STYLESETBOLD, STYLE_BRACELIGHT, (LPARAM)TRUE);
 
 	// this is the style for disabled code by preprocessor instructions
 	// the style is the default one +64
